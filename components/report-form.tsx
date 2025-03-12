@@ -1,28 +1,37 @@
-"use client"
+'use client'
 
-import type React from "react"
+import type React from 'react'
 
-import { useState } from "react"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import * as z from "zod"
-import { Loader2, Upload } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { useToast } from "@/hooks/use-toast"
-import { validateAddress } from "@/lib/google-maps"
+import { Button } from '@/components/ui/button'
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
+import { validateAddress } from '@/lib/google-maps'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Loader2, Upload } from 'lucide-react'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
+import * as z from 'zod'
+import Image from 'next/image'
 
 const formSchema = z.object({
   address: z.string().min(5, {
-    message: "Address must be at least 5 characters.",
+    message: 'Address must be at least 5 characters.',
   }),
   postalCode: z.string().min(3, {
-    message: "Postal code is required.",
+    message: 'Postal code is required.',
   }),
   city: z.string().min(2, {
-    message: "City is required.",
+    message: 'City is required.',
   }),
   floor: z.string().optional(),
   notes: z.string().optional(),
@@ -30,7 +39,6 @@ const formSchema = z.object({
 })
 
 export default function ReportForm() {
-  const { toast } = useToast()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [photoPreview, setPhotoPreview] = useState<string | null>(null)
   const [addressValidated, setAddressValidated] = useState(false)
@@ -38,11 +46,11 @@ export default function ReportForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      address: "",
-      postalCode: "",
-      city: "",
-      floor: "",
-      notes: "",
+      address: '',
+      postalCode: '',
+      city: '',
+      floor: '',
+      notes: '',
     },
   })
 
@@ -54,21 +62,19 @@ export default function ReportForm() {
         setPhotoPreview(reader.result as string)
       }
       reader.readAsDataURL(file)
-      form.setValue("photo", file)
+      form.setValue('photo', file)
     }
   }
 
   const validateAddressField = async () => {
-    const address = form.getValues("address")
-    const city = form.getValues("city")
-    const postalCode = form.getValues("postalCode")
+    const address = form.getValues('address')
+    const city = form.getValues('city')
+    const postalCode = form.getValues('postalCode')
 
     if (!address || !city || !postalCode) {
-      toast({
-        title: "Missing Information",
-        description: "Please fill in address, city, and postal code before validating.",
-        variant: "destructive",
-      })
+      toast.error(
+        'Please fill in address, city, and postal code before validating.',
+      )
       return
     }
 
@@ -79,23 +85,15 @@ export default function ReportForm() {
 
       if (isValid) {
         setAddressValidated(true)
-        toast({
-          title: "Address Validated",
-          description: "The address has been successfully validated.",
-        })
+        toast.success('The address has been successfully validated.')
       } else {
-        toast({
-          title: "Invalid Address",
-          description: "The address could not be validated. Please check and try again.",
-          variant: "destructive",
-        })
+        toast.error(
+          'The address could not be validated. Please check and try again.',
+        )
       }
     } catch (error) {
-      toast({
-        title: "Validation Error",
-        description: "There was an error validating the address.",
-        variant: "destructive",
-      })
+      toast.error('There was an error validating the address.')
+      console.error('Error validating address:', error)
     } finally {
       setIsSubmitting(false)
     }
@@ -103,20 +101,16 @@ export default function ReportForm() {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     if (!addressValidated) {
-      toast({
-        title: "Address Not Validated",
-        description: "Please validate the address before submitting.",
-        variant: "destructive",
-      })
+      toast.error('Please validate the address before submitting.')
       return
     }
 
     setIsSubmitting(true)
     try {
-      const response = await fetch("/api/reports", {
-        method: "POST",
+      const response = await fetch('/api/reports', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(values),
       })
@@ -125,19 +119,13 @@ export default function ReportForm() {
         form.reset()
         setPhotoPreview(null)
         setAddressValidated(false)
-        toast({
-          title: "Report Submitted",
-          description: "Your report has been successfully submitted.",
-        })
+        toast.success('Your report has been successfully submitted.')
       } else {
-        throw new Error("Failed to submit report")
+        throw new Error('Failed to submit report')
       }
     } catch (error) {
-      toast({
-        title: "Submission Error",
-        description: "There was an error submitting your report.",
-        variant: "destructive",
-      })
+      console.error('Error submitting report:', error)
+      toast.error('There was an error submitting your report.')
     } finally {
       setIsSubmitting(false)
     }
@@ -193,7 +181,12 @@ export default function ReportForm() {
         </div>
 
         <div className="flex justify-end">
-          <Button type="button" variant="outline" onClick={validateAddressField} disabled={isSubmitting}>
+          <Button
+            type="button"
+            variant="outline"
+            onClick={validateAddressField}
+            disabled={isSubmitting}
+          >
             {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Validate Address
           </Button>
@@ -208,7 +201,9 @@ export default function ReportForm() {
               <FormControl>
                 <Input placeholder="e.g., 3rd floor, Apartment 4B" {...field} />
               </FormControl>
-              <FormDescription>Specify the floor or apartment number if known</FormDescription>
+              <FormDescription>
+                Specify the floor or apartment number if known
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -238,27 +233,42 @@ export default function ReportForm() {
             <Button
               type="button"
               variant="outline"
-              onClick={() => document.getElementById("photo-upload")?.click()}
+              onClick={() => document.getElementById('photo-upload')?.click()}
               className="flex items-center gap-2"
             >
               <Upload className="h-4 w-4" />
               Upload Photo
             </Button>
-            <Input id="photo-upload" type="file" accept="image/*" className="hidden" onChange={handlePhotoChange} />
+            <Input
+              id="photo-upload"
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handlePhotoChange}
+            />
             {photoPreview && (
               <div className="relative h-20 w-20 rounded-md overflow-hidden border">
-                <img
-                  src={photoPreview || "/placeholder.svg"}
+                <Image
+                  src={photoPreview || '/placeholder.svg'}
                   alt="Building entrance preview"
                   className="h-full w-full object-cover"
+                  layout="fill"
+                  objectFit='cover'
                 />
               </div>
             )}
           </div>
-          <FormDescription>Upload a photo of the building entrance to help identify the location</FormDescription>
+          <FormDescription>
+            Upload a photo of the building entrance to help identify the
+            location
+          </FormDescription>
         </div>
 
-        <Button type="submit" className="w-full" disabled={isSubmitting || !addressValidated}>
+        <Button
+          type="submit"
+          className="w-full"
+          disabled={isSubmitting || !addressValidated}
+        >
           {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
           Submit Report
         </Button>
@@ -266,4 +276,3 @@ export default function ReportForm() {
     </Form>
   )
 }
-

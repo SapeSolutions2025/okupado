@@ -34,8 +34,8 @@ export function VistaMapaCompleto({ selectedLocation, allLocations, reports }: V
   const [activeMarker, setActiveMarker] = useState<string | null>(null)
   const [infoWindowPosition, setInfoWindowPosition] = useState<google.maps.LatLng | null>(null)
   const markersRef = useRef<Record<string, google.maps.Marker>>({})
-
-  // Cargar el script de Google Maps usando el cargador de la biblioteca
+  console.log(map)
+  // Cargarel script de Google Maps usando el cargador de la biblioteca
   const { isLoaded, loadError } = useJsApiLoader({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "",
     libraries: ["places"],
@@ -141,7 +141,7 @@ export function VistaMapaCompleto({ selectedLocation, allLocations, reports }: V
           allLocations.forEach((location, index) => {
             const coordKey = `${location.location.lat.toFixed(5)},${location.location.lng.toFixed(5)}`
             const tieneReportes = hasReportsInAddress(location)
-            const numReportes = getReportCount(location)
+            //const numReportes = getReportCount(location)
             const markerIcon = tieneReportes
               ? "https://maps.google.com/mapfiles/ms/icons/red-dot.png"
               : "https://maps.google.com/mapfiles/ms/icons/blue-dot.png"
@@ -240,7 +240,8 @@ export function VistaMapaCompleto({ selectedLocation, allLocations, reports }: V
                   })()
                 : // Contenido para ubicaciones
                   (() => {
-                    const [address, index] = activeMarker.split("-")
+                    const index = activeMarker.split("-")?.[1]
+
                     const location = allLocations[Number(index)]
                     if (!location) return <div>Ubicación no encontrada</div>
 

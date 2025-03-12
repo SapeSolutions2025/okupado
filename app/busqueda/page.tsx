@@ -4,12 +4,12 @@ import { getReports } from "@/services/supabase-service"
 import { Loader2 } from "lucide-react"
 
 interface SearchPageProps {
-  searchParams: { q?: string; city?: string }
+  searchParams: Promise<{ q?: string; city?: string }>
 }
 
 export default async function BusquedaPage({ searchParams }: SearchPageProps) {
-  // Obtener reportes del servidor
-  const reports = await getReports(searchParams.city)
+  const params = await searchParams
+  const reports = await getReports(params.city)
 
   return (
     <main className="flex flex-col min-h-screen">
@@ -22,8 +22,8 @@ export default async function BusquedaPage({ searchParams }: SearchPageProps) {
           }
         >
           <BusquedaPageClient
-            initialQuery={searchParams.q || ""}
-            initialCity={searchParams.city || null}
+            initialQuery={params.q || ""}
+            initialCity={params.city || null}
             initialReports={reports}
           />
         </Suspense>

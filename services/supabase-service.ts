@@ -1,8 +1,8 @@
 import { supabase } from "@/lib/supabase"
-import type { Report } from "@/types/report"
 import type { Address } from "@/types/address"
-import { v4 as uuidv4 } from "uuid"
+import type { Report } from "@/types/report"
 import { toast } from "sonner"
+import { v4 as uuidv4 } from "uuid"
 
 // Coordenadas aproximadas de ciudades españolas
 const cityCoordinates: Record<string, { lat: number; lng: number }> = {
@@ -63,7 +63,7 @@ export async function getReports(city?: string): Promise<Report[]> {
   }
 }
 
-export async function createReport(reportData: Omit<Report, "id" | "createdAt" | "status">): Promise<Report | null> {
+export async function createReport(reportData: Omit<Report, "id" | "createdAt" | "status" | "location">): Promise<Report | null> {
   try {
     // Generar coordenadas a partir de la ciudad
     let lat = 0

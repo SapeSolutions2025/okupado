@@ -67,7 +67,7 @@ export function BusquedaPageClient({ initialQuery, initialCity, initialReports }
   const [isLoading, setIsLoading] = useState(false)
   const [selectedCity, setSelectedCity] = useState<string | null>(initialCity)
   const [activeTab, setActiveTab] = useState("resultados")
-  const [reports, setReports] = useState<Report[]>(initialReports)
+  const [reports] = useState<Report[]>(initialReports)
 
   // Caché de búsquedas
   const searchCache = useRef<Record<string, Address[]>>({})
@@ -128,7 +128,7 @@ export function BusquedaPageClient({ initialQuery, initialCity, initialReports }
           // Aplicar filtro de ciudad si está seleccionada
           if (selectedCity) {
             setFilteredResults(
-              data.results.filter((address) => address.city.toLowerCase().includes(selectedCity.toLowerCase())),
+              data.results.filter((address: any) => address.city.toLowerCase().includes(selectedCity.toLowerCase())),
             )
           } else {
             setFilteredResults(data.results)

@@ -1,9 +1,14 @@
-"use client"
+'use client'
 
-import { useState, useCallback } from "react"
-import { Loader2 } from "lucide-react"
-import { GoogleMap, useJsApiLoader, Marker, InfoWindow } from "@react-google-maps/api"
-import type { Address } from "@/types/address"
+import type { Address } from '@/types/address'
+import {
+  GoogleMap,
+  InfoWindow,
+  Marker,
+  useJsApiLoader,
+} from '@react-google-maps/api'
+import { Loader2 } from 'lucide-react'
+import { useCallback, useState } from 'react'
 
 // Declare the google variable
 declare global {
@@ -13,8 +18,8 @@ declare global {
 }
 
 const mapContainerStyle = {
-  width: "100%",
-  height: "100%",
+  width: '100%',
+  height: '100%',
 }
 
 // Madrid coordinates (default center)
@@ -32,9 +37,10 @@ export function MapView({ selectedLocation }: MapViewProps) {
   const [infoWindowOpen, setInfoWindowOpen] = useState(false)
 
   // Load the Google Maps script using the library's loader
+  console.log(map)
   const { isLoaded, loadError } = useJsApiLoader({
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "",
-    libraries: ["places"],
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '',
+    libraries: ['places'],
   })
 
   // Store a reference to the map when it loads
@@ -95,7 +101,9 @@ export function MapView({ selectedLocation }: MapViewProps) {
             {(infoWindowOpen || true) && (
               <InfoWindow onCloseClick={() => setInfoWindowOpen(false)}>
                 <div className="p-1">
-                  <h3 className="font-medium text-sm mb-1">{selectedLocation.formattedAddress}</h3>
+                  <h3 className="font-medium text-sm mb-1">
+                    {selectedLocation.formattedAddress}
+                  </h3>
                   <p className="text-xs text-muted-foreground">
                     {selectedLocation.city}, {selectedLocation.postalCode}
                   </p>
@@ -108,4 +116,3 @@ export function MapView({ selectedLocation }: MapViewProps) {
     </div>
   )
 }
-

@@ -3,7 +3,7 @@ export interface Report {
   address: string
   postalCode: string
   city: string
-  floor: string | null
+  floor?: string | null
   incidentType: string
   description: string
   location: {
@@ -11,8 +11,8 @@ export interface Report {
     lng: number
   } | null
   photoUrl: string | null
-  reporterName: string | null
-  reporterEmail: string | null
+  reporterName?: string | null
+  reporterEmail?: string | null
   createdAt: string
   updatedAt?: string | null
   status?: string

@@ -19,7 +19,7 @@ const reportSchema = z.object({
   description: z.string().min(10, {
     message: "La descripción debe tener al menos 10 caracteres.",
   }),
-  floor: z.string().optional(),
+  floor: z.string().optional().nullable(),
   reporterName: z.string().optional(),
   reporterEmail: z
     .string()
