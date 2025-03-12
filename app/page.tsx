@@ -14,7 +14,7 @@ export default function Home() {
         <h2 className="text-2xl font-bold mb-6 text-center">¿Qué es Okupado?</h2>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="bg-card rounded-lg p-6 shadow-sm border flex flex-col items-center text-center">
+          <div className="bg-card rounded-lg p-6 shadow-xs border flex flex-col items-center text-center">
             <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4">
               <MapPin className="h-6 w-6 text-primary" />
             </div>
@@ -24,7 +24,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="bg-card rounded-lg p-6 shadow-sm border flex flex-col items-center text-center">
+          <div className="bg-card rounded-lg p-6 shadow-xs border flex flex-col items-center text-center">
             <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4">
               <FileText className="h-6 w-6 text-primary" />
             </div>
@@ -34,7 +34,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="bg-card rounded-lg p-6 shadow-sm border flex flex-col items-center text-center">
+          <div className="bg-card rounded-lg p-6 shadow-xs border flex flex-col items-center text-center">
             <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4">
               <Shield className="h-6 w-6 text-primary" />
             </div>

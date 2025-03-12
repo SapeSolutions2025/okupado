@@ -20,7 +20,7 @@ export function HeroBanner() {
   }
 
   return (
-    <div className="relative bg-gradient-to-r from-primary/10 to-primary/5 py-20">
+    <div className="relative bg-linear-to-r from-primary/10 to-primary/5 py-20">
       <div className="container mx-auto px-4">
         <div className="max-w-3xl mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">Comunidad contra la okupación ilegal</h1>

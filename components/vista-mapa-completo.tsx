@@ -255,7 +255,7 @@ export function VistaMapaCompleto({ selectedLocation, allLocations, reports }: V
                         </p>
                         {tieneReportes && (
                           <div className="flex items-center gap-1 text-amber-600 bg-amber-50 p-1 rounded-sm text-xs mt-1">
-                            <AlertCircle className="h-3 w-3 flex-shrink-0" />
+                            <AlertCircle className="h-3 w-3 shrink-0" />
                             <span className="font-medium">
                               {numReportes} {numReportes === 1 ? "reporte" : "reportes"} de inquiokupas
                             </span>

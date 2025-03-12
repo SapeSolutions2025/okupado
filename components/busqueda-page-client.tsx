@@ -50,7 +50,7 @@ function MapaSuspense({
 }) {
   return (
     <Suspense fallback={null}>
-      <div className="h-[600px] rounded-lg overflow-hidden border shadow-sm">
+      <div className="h-[600px] rounded-lg overflow-hidden border shadow-xs">
         <VistaMapaCompleto selectedLocation={selectedLocation} allLocations={allLocations} reports={reports} />
       </div>
     </Suspense>
@@ -190,7 +190,7 @@ export function BusquedaPageClient({ initialQuery, initialCity, initialReports }
 
   return (
     <div className="grid grid-cols-1 gap-6">
-      <div className="bg-gradient-to-r from-primary/10 to-primary/5 rounded-lg p-6 mb-4">
+      <div className="bg-linear-to-r from-primary/10 to-primary/5 rounded-lg p-6 mb-4">
         <BusquedaForm initialQuery={initialQuery} onSearch={handleSearch} isLoading={isLoading} />
       </div>
 

@@ -64,7 +64,7 @@ export function ResultadosBusqueda({ results, onViewOnMap, isLoading, reports }:
         </Card>
 
         {/* Skeleton para la paginación */}
-        <div className="mt-4 bg-card rounded-lg border shadow-sm">
+        <div className="mt-4 bg-card rounded-lg border shadow-xs">
           <div className="flex justify-between items-center px-4 py-3">
             <Skeleton className="h-5 w-40" />
             <div className="flex gap-1">
@@ -92,7 +92,7 @@ export function ResultadosBusqueda({ results, onViewOnMap, isLoading, reports }:
         </Card>
 
         {/* Paginación para "no results" */}
-        <div className="mt-4 bg-card rounded-lg border shadow-sm">
+        <div className="mt-4 bg-card rounded-lg border shadow-xs">
           <div className="flex justify-between items-center px-4 py-3">
             <div className="text-sm text-muted-foreground">Mostrando 0 resultados</div>
             <div className="flex gap-1">
@@ -151,7 +151,7 @@ export function ResultadosBusqueda({ results, onViewOnMap, isLoading, reports }:
 
                     {tieneReportes && (
                       <div className="flex items-center gap-2 mt-2 text-amber-600 dark:text-amber-500 bg-amber-50 dark:bg-amber-950/30 p-2 rounded-md">
-                        <AlertCircle className="h-4 w-4 flex-shrink-0" />
+                        <AlertCircle className="h-4 w-4 shrink-0" />
                         <span className="text-sm font-medium">
                           {numReportes} {numReportes === 1 ? "reporte" : "reportes"} de inquiokupas en esta zona
                         </span>
@@ -193,7 +193,7 @@ export function ResultadosBusqueda({ results, onViewOnMap, isLoading, reports }:
       </Card>
 
       {/* Paginación - siempre visible y al final de la página */}
-      <div className="mt-4 bg-card rounded-lg border shadow-sm">
+      <div className="mt-4 bg-card rounded-lg border shadow-xs">
         <div className="flex justify-between items-center px-4 py-3">
           <div className="text-sm text-muted-foreground">
             {results.length > 0 ? (
