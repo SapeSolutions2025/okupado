@@ -1,16 +1,16 @@
-import { CookieConsent } from "@/components/cookie-consent"
-import { Navbar } from "@/components/navbar"
-import { ThemeProvider } from "next-themes"
-import { Toaster } from "@/components/ui/sonner"
-import type React from "react"
-import "./globals.css"
-import Adsense from "@/components/Adsense/ScriptAdSense"
-import { config } from "@/lib/config"
-
+import Adsense from '@/components/Adsense/ScriptAdSense'
+import { CookieConsent } from '@/components/cookie-consent'
+import { Navbar } from '@/components/navbar'
+import { Toaster } from '@/components/ui/sonner'
+import { config } from '@/lib/config'
+import { ThemeProvider } from 'next-themes'
+import type React from 'react'
+import './globals.css'
 
 export const metadata = {
-  title: "Okupado - Comunidad contra la okupación ilegal",
-  description: "Plataforma comunitaria para reportar y visualizar edificios con inquiokupas",
+  title: 'Okupado - Comunidad contra la okupación ilegal',
+  description:
+    'Plataforma comunitaria para reportar y visualizar edificios con inquiokupas',
 }
 
 export default function RootLayout({
@@ -22,9 +22,15 @@ export default function RootLayout({
     <html lang="es" suppressHydrationWarning>
       <head>
         <Adsense pId={config.GOOGLE_PID} />
+        <meta name="google-adsense-account" content={config.GOOGLE_PID}></meta>
       </head>
-      <body >
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+      <body>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
           <Navbar />
           {children}
           <CookieConsent />
@@ -34,4 +40,3 @@ export default function RootLayout({
     </html>
   )
 }
-
