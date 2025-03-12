@@ -1,12 +1,10 @@
+import { CookieConsent } from "@/components/cookie-consent"
+import { Navbar } from "@/components/navbar"
+import { ThemeProvider } from "next-themes"
+import { Toaster } from "@/components/ui/sonner"
 import type React from "react"
 import "./globals.css"
-import { Inter } from "next/font/google"
-import { ThemeProvider } from "@/components/theme-provider"
-import { Navbar } from "@/components/navbar"
-import { CookieConsent } from "@/components/cookie-consent"
-import { Toaster } from "@/components/ui/sonner"
 
-const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
   title: "Okupado - Comunidad contra la okupación ilegal",
@@ -20,7 +18,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es" suppressHydrationWarning>
-      <body className={inter.className}>
+      <body >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <Navbar />
           {children}
