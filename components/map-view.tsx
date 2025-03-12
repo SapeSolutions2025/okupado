@@ -1,5 +1,6 @@
 'use client'
 
+import { config } from '@/lib/config'
 import type { Address } from '@/types/address'
 import {
   GoogleMap,
@@ -39,7 +40,7 @@ export function MapView({ selectedLocation }: MapViewProps) {
   // Load the Google Maps script using the library's loader
   console.log(map)
   const { isLoaded, loadError } = useJsApiLoader({
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '',
+    googleMapsApiKey: config.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '',
     libraries: ['places'],
   })
 

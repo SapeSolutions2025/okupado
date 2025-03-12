@@ -5,6 +5,7 @@ import { Loader2, AlertCircle } from "lucide-react"
 import { GoogleMap, useJsApiLoader, Marker, InfoWindow } from "@react-google-maps/api"
 import type { Address } from "@/types/address"
 import type { Report } from "@/types/report"
+import { config } from "@/lib/config"
 
 declare global {
   interface Window {
@@ -37,7 +38,7 @@ export function VistaMapaCompleto({ selectedLocation, allLocations, reports }: V
   console.log(map)
   // Cargarel script de Google Maps usando el cargador de la biblioteca
   const { isLoaded, loadError } = useJsApiLoader({
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "",
+    googleMapsApiKey: config.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "",
     libraries: ["places"],
   })
 

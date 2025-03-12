@@ -4,6 +4,8 @@ import { ThemeProvider } from "next-themes"
 import { Toaster } from "@/components/ui/sonner"
 import type React from "react"
 import "./globals.css"
+import Adsense from "@/components/Adsense/ScriptAdSense"
+import { config } from "@/lib/config"
 
 
 export const metadata = {
@@ -18,6 +20,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es" suppressHydrationWarning>
+      <head>
+        <Adsense pId={config.GOOGLE_PID} />
+      </head>
       <body >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <Navbar />
