@@ -5,7 +5,7 @@ interface AnuncioProps {
   fullHeight?: boolean
 }
 
-export function Anuncio({ className, fullHeight = false }: AnuncioProps) {
+export function Ads({ className, fullHeight = false }: AnuncioProps) {
   return (
     <div className={cn("w-full", fullHeight ? "h-full" : "", className)}>
       <div

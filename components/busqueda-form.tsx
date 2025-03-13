@@ -45,7 +45,7 @@ export function BusquedaForm({ initialQuery = "", onSearch, isLoading }: Busqued
 
   return (
     <Card>
-      <CardContent className="pt-4">
+      <CardContent >
         <form onSubmit={handleSubmit} className="flex w-full items-center space-x-2">
           <Input
             type="text"

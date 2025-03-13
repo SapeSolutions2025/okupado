@@ -1,15 +1,15 @@
-"use client"
+'use client'
 
-import type React from "react"
+import type React from 'react'
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { Search, Building } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Building, Search } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 
 export function HeroBanner() {
-  const [query, setQuery] = useState("")
+  const [query, setQuery] = useState('')
   const router = useRouter()
 
   const handleSearch = (e: React.FormEvent) => {
@@ -23,12 +23,17 @@ export function HeroBanner() {
     <div className="relative bg-linear-to-r from-primary/10 to-primary/5 py-20">
       <div className="container mx-auto px-4">
         <div className="max-w-3xl mx-auto text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">Comunidad contra la okupación ilegal</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+            Comunidad contra la okupación ilegal
+          </h1>
           <p className="text-xl text-muted-foreground mb-8">
             Busca, reporta y visualiza edificios con inquiokupas en toda España
           </p>
 
-          <form onSubmit={handleSearch} className="flex w-full max-w-xl mx-auto mb-8 relative">
+          <form
+            onSubmit={handleSearch}
+            className="flex w-full max-w-xl mx-auto mb-8 relative"
+          >
             <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground">
               <Building size={18} />
             </div>
@@ -51,19 +56,22 @@ export function HeroBanner() {
 
           <div className="flex flex-wrap justify-center gap-2 text-sm text-muted-foreground">
             <span>Búsquedas populares:</span>
-            <button onClick={() => setQuery("Gran Vía, Madrid")} className="hover:text-primary hover:underline">
+            <button
+              onClick={() => setQuery('Gran Vía, Madrid')}
+              className="hover:text-primary hover:underline"
+            >
               Gran Vía, Madrid
             </button>
             <span>•</span>
             <button
-              onClick={() => setQuery("Sagrada Familia, Barcelona")}
+              onClick={() => setQuery('Sagrada Familia, Barcelona')}
               className="hover:text-primary hover:underline"
             >
               Sagrada Familia, Barcelona
             </button>
             <span>•</span>
             <button
-              onClick={() => setQuery("Plaza del Ayuntamiento, Valencia")}
+              onClick={() => setQuery('Plaza del Ayuntamiento, Valencia')}
               className="hover:text-primary hover:underline"
             >
               Plaza del Ayuntamiento, Valencia
@@ -74,4 +82,3 @@ export function HeroBanner() {
     </div>
   )
 }
-

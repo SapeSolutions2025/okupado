@@ -1,19 +1,17 @@
-"use client"
+'use client'
 
-import { useState, useEffect, Suspense, useCallback, useRef } from "react"
-import { useRouter, useSearchParams } from "next/navigation"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { BusquedaForm } from "@/components/busqueda-form"
-import { ResultadosBusqueda } from "@/components/resultados-busqueda"
-import { VistaMapaCompleto } from "@/components/vista-mapa-completo"
-import { FiltroUbicacion } from "@/components/filtro-ubicacion"
-import { Anuncio } from "@/components/anuncio"
-import { Button } from "@/components/ui/button"
-import { MapPin, FileText } from "lucide-react"
-import Link from "next/link"
-import type { Address } from "@/types/address"
-import type { Report } from "@/types/report"
-import { toast } from "sonner"
+import { Ads } from '@/components/anuncio'
+import { BusquedaForm } from '@/components/busqueda-form'
+import { FiltroUbicacion } from '@/components/filtro-ubicacion'
+import { ResultadosBusqueda } from '@/components/resultados-busqueda'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { VistaMapaCompleto } from '@/components/vista-mapa-completo'
+import type { Address } from '@/types/address'
+import type { Report } from '@/types/report'
+import { FileText, MapPin } from 'lucide-react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { Suspense, useCallback, useEffect, useRef, useState } from 'react'
+import { toast } from 'sonner'
 
 interface BusquedaPageClientProps {
   initialQuery: string
@@ -34,7 +32,12 @@ function ResultadosSuspense({
 }) {
   return (
     <Suspense fallback={null}>
-      <ResultadosBusqueda results={filteredResults} onViewOnMap={onViewOnMap} isLoading={isLoading} reports={reports} />
+      <ResultadosBusqueda
+        results={filteredResults}
+        onViewOnMap={onViewOnMap}
+        isLoading={isLoading}
+        reports={reports}
+      />
     </Suspense>
   )
 }
@@ -51,13 +54,21 @@ function MapaSuspense({
   return (
     <Suspense fallback={null}>
       <div className="h-[600px] rounded-lg overflow-hidden border shadow-xs">
-        <VistaMapaCompleto selectedLocation={selectedLocation} allLocations={allLocations} reports={reports} />
+        <VistaMapaCompleto
+          selectedLocation={selectedLocation}
+          allLocations={allLocations}
+          reports={reports}
+        />
       </div>
     </Suspense>
   )
 }
 
-export function BusquedaPageClient({ initialQuery, initialCity, initialReports }: BusquedaPageClientProps) {
+export function BusquedaPageClient({
+  initialQuery,
+  initialCity,
+  initialReports,
+}: BusquedaPageClientProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
 
@@ -66,13 +77,13 @@ export function BusquedaPageClient({ initialQuery, initialCity, initialReports }
   const [selectedLocation, setSelectedLocation] = useState<Address | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [selectedCity, setSelectedCity] = useState<string | null>(initialCity)
-  const [activeTab, setActiveTab] = useState("resultados")
+  const [activeTab, setActiveTab] = useState('resultados')
   const [reports] = useState<Report[]>(initialReports)
 
   // Caché de búsquedas
   const searchCache = useRef<Record<string, Address[]>>({})
   // Última consulta realizada
-  const lastQuery = useRef<string>("")
+  const lastQuery = useRef<string>('')
 
   useEffect(() => {
     if (initialQuery && initialQuery !== lastQuery.current) {
@@ -97,7 +108,7 @@ export function BusquedaPageClient({ initialQuery, initialCity, initialReports }
 
       // Verificar si hay resultados en caché
       if (searchCache.current[normalizedQuery]) {
-        console.log("Usando resultados en caché para:", normalizedQuery)
+        console.log('Usando resultados en caché para:', normalizedQuery)
         setSearchResults(searchCache.current[normalizedQuery])
 
         // Aplicar filtro de ciudad si está seleccionada
@@ -116,7 +127,9 @@ export function BusquedaPageClient({ initialQuery, initialCity, initialReports }
 
       setIsLoading(true)
       try {
-        const response = await fetch(`/api/geocode?address=${encodeURIComponent(query)}&country=es`)
+        const response = await fetch(
+          `/api/geocode?address=${encodeURIComponent(query)}&country=es`,
+        )
         const data = await response.json()
 
         if (data.success) {
@@ -128,7 +141,9 @@ export function BusquedaPageClient({ initialQuery, initialCity, initialReports }
           // Aplicar filtro de ciudad si está seleccionada
           if (selectedCity) {
             setFilteredResults(
-              data.results.filter((address: any) => address.city.toLowerCase().includes(selectedCity.toLowerCase())),
+              data.results.filter((address: any) =>
+                address.city.toLowerCase().includes(selectedCity.toLowerCase()),
+              ),
             )
           } else {
             setFilteredResults(data.results)
@@ -138,9 +153,10 @@ export function BusquedaPageClient({ initialQuery, initialCity, initialReports }
           setFilteredResults([])
         }
       } catch (error) {
-        console.error("Error de búsqueda:", error)
-        toast.error("Error de búsqueda", {
-          description: "No se pudieron obtener los resultados. Inténtalo de nuevo más tarde.",
+        console.error('Error de búsqueda:', error)
+        toast.error('Error de búsqueda', {
+          description:
+            'No se pudieron obtener los resultados. Inténtalo de nuevo más tarde.',
         })
         setSearchResults([])
         setFilteredResults([])
@@ -158,14 +174,14 @@ export function BusquedaPageClient({ initialQuery, initialCity, initialReports }
       // Actualizar la URL con el parámetro de ciudad
       const params = new URLSearchParams(searchParams.toString())
       if (city) {
-        params.set("city", city)
+        params.set('city', city)
       } else {
-        params.delete("city")
+        params.delete('city')
       }
 
       // Mantener el parámetro de búsqueda si existe
       if (initialQuery) {
-        params.set("q", initialQuery)
+        params.set('q', initialQuery)
       }
 
       // Actualizar la URL sin recargar la página
@@ -177,7 +193,9 @@ export function BusquedaPageClient({ initialQuery, initialCity, initialReports }
       }
 
       // Filtrar resultados por ciudad (usando coincidencia parcial e insensible a mayúsculas/minúsculas)
-      const filtered = searchResults.filter((address) => address.city.toLowerCase().includes(city.toLowerCase()))
+      const filtered = searchResults.filter((address) =>
+        address.city.toLowerCase().includes(city.toLowerCase()),
+      )
       setFilteredResults(filtered)
     },
     [searchResults, initialQuery, searchParams, router],
@@ -185,77 +203,91 @@ export function BusquedaPageClient({ initialQuery, initialCity, initialReports }
 
   const handleViewOnMap = useCallback((address: Address) => {
     setSelectedLocation(address)
-    setActiveTab("mapa")
+    setActiveTab('mapa')
   }, [])
 
   return (
     <div className="grid grid-cols-1 gap-6">
-      <div className="bg-linear-to-r from-primary/10 to-primary/5 rounded-lg p-6 mb-4">
-        <BusquedaForm initialQuery={initialQuery} onSearch={handleSearch} isLoading={isLoading} />
-      </div>
+      <BusquedaForm
+        initialQuery={initialQuery}
+        onSearch={handleSearch}
+        isLoading={isLoading}
+      />
 
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-4">
-          {searchResults.length > 0 && (
-            <FiltroUbicacion addresses={searchResults} selectedCity={selectedCity} onSelectCity={handleFilter} />
-          )}
+          <FiltroUbicacion
+            addresses={searchResults}
+            selectedCity={selectedCity}
+            onSelectCity={handleFilter}
+            disabled={!searchResults.length}
+          />
 
           <div className="text-sm text-muted-foreground">
-            {filteredResults.length > 0 && <span>Se encontraron {filteredResults.length} resultados</span>}
+            <span>Se encontraron {filteredResults.length} resultados</span>
           </div>
         </div>
-
-        <Link href="/reportar">
-          <Button variant="outline" size="sm" className="flex items-center gap-1">
-            <FileText className="h-4 w-4" />
-            Reportar inquiokupa
-          </Button>
-        </Link>
       </div>
 
-      {searchResults.length > 0 && (
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-2 mb-6">
-            <TabsTrigger value="resultados" className="flex items-center gap-2">
-              <FileText className="h-4 w-4" />
-              Resultados
-            </TabsTrigger>
-            <TabsTrigger value="mapa" className="flex items-center gap-2">
-              <MapPin className="h-4 w-4" />
-              Mapa
-            </TabsTrigger>
-          </TabsList>
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+        <TabsList className="grid w-full grid-cols-2 mb-6">
+          <TabsTrigger value="resultados" className="flex items-center gap-2">
+            <FileText className="h-4 w-4" />
+            Resultados
+          </TabsTrigger>
+          <TabsTrigger value="mapa" className="flex items-center gap-2">
+            <MapPin className="h-4 w-4" />
+            Mapa
+          </TabsTrigger>
+        </TabsList>
+        {searchResults.length ? (
+          <>
+            <TabsContent value="resultados" className="space-y-6">
+              <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 min-h-[800px]">
+                <div className="lg:col-span-1">
+                  <Ads fullHeight className="h-full" />
+                </div>
 
-          <TabsContent value="resultados" className="space-y-6">
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 min-h-[800px]">
-              <div className="lg:col-span-1">
-                <Anuncio fullHeight className="h-full" />
+                <div className="lg:col-span-3">
+                  <ResultadosSuspense
+                    filteredResults={filteredResults}
+                    onViewOnMap={handleViewOnMap}
+                    isLoading={isLoading}
+                    reports={reports}
+                  />
+                </div>
               </div>
+            </TabsContent>
 
-              <div className="lg:col-span-3">
-                <ResultadosSuspense
-                  filteredResults={filteredResults}
-                  onViewOnMap={handleViewOnMap}
-                  isLoading={isLoading}
-                  reports={reports}
-                />
+            <TabsContent value="mapa">
+              <MapaSuspense
+                selectedLocation={selectedLocation}
+                allLocations={filteredResults}
+                reports={reports}
+              />
+            </TabsContent>
+          </>
+        ) : (
+          lastQuery.current && (
+            <div className="min-h-[800px]">
+              <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 min-h-[800px]">
+                <div className="lg:col-span-1">
+                  <Ads fullHeight className="h-full" />
+                </div>
+
+                <div className="lg:col-span-3">
+                  <ResultadosBusqueda
+                    results={[]}
+                    onViewOnMap={() => {}}
+                    isLoading={isLoading}
+                    reports={reports}
+                  />
+                </div>
               </div>
             </div>
-          </TabsContent>
-
-          <TabsContent value="mapa">
-            <MapaSuspense selectedLocation={selectedLocation} allLocations={filteredResults} reports={reports} />
-          </TabsContent>
-        </Tabs>
-      )}
-
-      {/* Mostrar resultados vacíos si no hay búsqueda pero se ha intentado buscar */}
-      {searchResults.length === 0 && lastQuery.current && (
-        <div className="min-h-[800px]">
-          <ResultadosBusqueda results={[]} onViewOnMap={() => {}} isLoading={isLoading} reports={reports} />
-        </div>
-      )}
+          )
+        )}
+      </Tabs>
     </div>
   )
 }
-

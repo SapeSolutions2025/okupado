@@ -26,11 +26,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { Separator } from '@/components/ui/separator'
 import { Textarea } from '@/components/ui/textarea'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { CheckCircle, Loader2, Upload } from 'lucide-react'
+import { Loader2, Upload } from 'lucide-react'
 import Image from 'next/image'
-import Link from 'next/link'
 import type React from 'react'
 import { useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
@@ -65,12 +65,11 @@ const formSchema = z.object({
   photoDescription: z.string().optional(),
 })
 
-export function ReportarForm() {
+export function ReportForm() {
   const [isPending, startTransition] = useTransition()
   const [photoPreview, setPhotoPreview] = useState<string | null>(null)
   const [photoFile, setPhotoFile] = useState<File | null>(null)
   const [addressValidated, setAddressValidated] = useState(false)
-  const [isSuccess, setIsSuccess] = useState(false)
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -141,17 +140,14 @@ export function ReportarForm() {
 
     startTransition(async () => {
       try {
-        // Preparar los datos para el server action
         const formData: ReportFormData = {
           ...values,
           photoUrl: null,
         }
 
-        // Enviar el reporte usando el server action
         const result = await submitReport(formData, photoFile)
 
         if (result.success) {
-          setIsSuccess(true)
           form.reset()
           setPhotoPreview(null)
           setPhotoFile(null)
@@ -174,38 +170,6 @@ export function ReportarForm() {
         })
       }
     })
-  }
-
-  if (isSuccess) {
-    return (
-      <Card className="max-w-2xl mx-auto">
-        <CardHeader>
-          <div className="flex items-center justify-center mb-4">
-            <CheckCircle className="h-16 w-16 text-green-500" />
-          </div>
-          <CardTitle className="text-center text-2xl">
-            ¡Reporte enviado con éxito!
-          </CardTitle>
-          <CardDescription className="text-center">
-            Gracias por tu colaboración. Tu reporte ha sido recibido y será
-            revisado por nuestro equipo.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="flex flex-col items-center">
-          <p className="text-center text-muted-foreground mb-6">
-            Te notificaremos por email cuando haya novedades sobre tu reporte.
-          </p>
-          <div className="flex gap-4">
-            <Button asChild>
-              <Link href="/">Volver al inicio</Link>
-            </Button>
-            <Button variant="outline" onClick={() => setIsSuccess(false)}>
-              Crear otro reporte
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
-    )
   }
 
   return (
@@ -271,9 +235,25 @@ export function ReportarForm() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Piso/Apartamento (Opcional)</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Ej: 3º B, Bajo Izquierda" {...field} />
-                  </FormControl>
+                  <div className="flex items-center gap-2">
+                    <FormControl>
+                      <Input
+                        placeholder="Ej: 3º B, Bajo Izquierda"
+                        {...field}
+                      />
+                    </FormControl>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={validateAddressField}
+                      disabled={isPending}
+                    >
+                      {isPending && (
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      )}
+                      Validar
+                    </Button>
+                  </div>
                   <FormDescription>
                     Especifica el piso o apartamento si lo conoces
                   </FormDescription>
@@ -282,18 +262,7 @@ export function ReportarForm() {
               )}
             />
 
-            <div className="flex justify-end">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={validateAddressField}
-                disabled={isPending}
-              >
-                {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                Validar dirección
-              </Button>
-            </div>
-
+            <Separator />
             <FormField
               control={form.control}
               name="incidentType"
@@ -423,9 +392,6 @@ export function ReportarForm() {
                     <FormControl>
                       <Input placeholder="email@ejemplo.com" {...field} />
                     </FormControl>
-                    <FormDescription>
-                      Para recibir actualizaciones sobre tu reporte
-                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
