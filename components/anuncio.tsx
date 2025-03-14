@@ -12,11 +12,9 @@ interface AnuncioProps {
 export function Ads({ className, fullHeight = false, dataSlot }: AnuncioProps) {
   useEffect(() => {
     try {
-      // @ts-expect-error window.adsbygoogle is not defined
-      if (window.adsbygoogle && process.env.NODE_ENV === 'production') {
-        // @ts-expect-error window.adsbygoogle is not defined
-        window.adsbygoogle.push({})
-      }
+      ;((window as any).adsbygoogle = (window as any).adsbygoogle || []).push(
+        {},
+      )
     } catch (e) {
       console.error('Adsense error:', e)
     }
