@@ -39,7 +39,7 @@ export function HeroBanner() {
             </div>
             <Input
               type="text"
-              placeholder="Introduce una dirección o calle..."
+              placeholder="Introduce una dirección..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               className="flex-1 pl-10 pr-24 py-6 text-base rounded-full"

@@ -1,27 +1,46 @@
-import { cn } from "@/lib/utils"
+'use client'
+
+import { config } from '@/lib/config'
+import { cn } from '@/lib/utils'
+import { useEffect } from 'react'
 
 interface AnuncioProps {
   className?: string
   fullHeight?: boolean
+  dataSlot?: string
 }
 
-export function Ads({ className, fullHeight = false }: AnuncioProps) {
+export function Ads({ className, fullHeight = false, dataSlot }: AnuncioProps) {
+  useEffect(() => {
+    try {
+      // @ts-ignore
+      if (window.adsbygoogle && process.env.NODE_ENV === 'production') {
+        // @ts-ignore
+        window.adsbygoogle.push({})
+      }
+    } catch (e) {
+      console.error('Adsense error:', e)
+    }
+  }, [])
+
+
   return (
-    <div className={cn("w-full", fullHeight ? "h-full" : "", className)}>
+    <div className={cn('w-full', fullHeight ? 'h-full' : '', className)}>
       <div
         className={cn(
-          "bg-muted/30 border border-dashed border-muted-foreground/20 rounded-lg p-4 text-center",
-          fullHeight ? "h-full flex flex-col" : "",
+          'bg-muted/30 border border-dashed border-muted-foreground/20 rounded-lg p-4 text-center',
+          fullHeight ? 'h-full flex flex-col' : '',
         )}
       >
-        <p className="text-xs text-muted-foreground mb-2">ESPACIO PUBLICITARIO</p>
-        <div
-          className={cn("flex items-center justify-center bg-muted/50 rounded", fullHeight ? "flex-1" : "h-20 md:h-32")}
-        >
-          <span className="text-muted-foreground">Anuncio</span>
-        </div>
+        <ins
+          className="adsbygoogle"
+          style={{ display: 'block' }}
+          data-ad-client="ca-pub-9478860631244349"
+          data-ad-slot={dataSlot}
+          data-ad-format="auto"
+          data-full-width-responsive="true"
+        ></ins>
       </div>
     </div>
   )
 }
-

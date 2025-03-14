@@ -2,7 +2,6 @@ import Adsense from '@/components/Adsense/ScriptAdSense'
 import { CookieConsent } from '@/components/cookie-consent'
 import { Navbar } from '@/components/navbar'
 import { Toaster } from '@/components/ui/sonner'
-import { config } from '@/lib/config'
 import { ThemeProvider } from 'next-themes'
 import type React from 'react'
 import './globals.css'
@@ -21,8 +20,11 @@ export default function RootLayout({
   return (
     <html lang="es" suppressHydrationWarning>
       <head>
-        <Adsense pId={config.GOOGLE_PID} />
-        <meta name="google-adsense-account" content={config.GOOGLE_PID}></meta>
+        <Adsense pId={'ca-pub-9478860631244349'} />
+        <meta
+          name="google-adsense-account"
+          content={'ca-pub-9478860631244349'}
+        ></meta>
       </head>
       <body>
         <ThemeProvider

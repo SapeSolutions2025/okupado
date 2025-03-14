@@ -245,7 +245,7 @@ export function BusquedaPageClient({
             <TabsContent value="resultados" className="space-y-6">
               <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 min-h-[800px]">
                 <div className="lg:col-span-1">
-                  <Ads fullHeight className="h-full" />
+                  <Ads fullHeight className="h-full" dataSlot='4405346533'/>
                 </div>
 
                 <div className="lg:col-span-3">
@@ -272,7 +272,7 @@ export function BusquedaPageClient({
             <div className="min-h-[800px]">
               <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 min-h-[800px]">
                 <div className="lg:col-span-1">
-                  <Ads fullHeight className="h-full" />
+                  <Ads fullHeight className="h-full" dataSlot='9731160560'/>
                 </div>
 
                 <div className="lg:col-span-3">
