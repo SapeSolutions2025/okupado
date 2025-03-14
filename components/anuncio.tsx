@@ -1,6 +1,5 @@
 'use client'
 
-import { config } from '@/lib/config'
 import { cn } from '@/lib/utils'
 import { useEffect } from 'react'
 
@@ -13,16 +12,15 @@ interface AnuncioProps {
 export function Ads({ className, fullHeight = false, dataSlot }: AnuncioProps) {
   useEffect(() => {
     try {
-      // @ts-ignore
+      // @ts-expect-error window.adsbygoogle is not defined
       if (window.adsbygoogle && process.env.NODE_ENV === 'production') {
-        // @ts-ignore
+        // @ts-expect-error window.adsbygoogle is not defined
         window.adsbygoogle.push({})
       }
     } catch (e) {
       console.error('Adsense error:', e)
     }
   }, [])
-
 
   return (
     <div className={cn('w-full', fullHeight ? 'h-full' : '', className)}>
