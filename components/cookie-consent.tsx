@@ -1,8 +1,6 @@
-"use client"
+'use client'
 
-import { useState, useEffect } from "react"
-import { Check, Settings } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -10,24 +8,24 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
-import { Switch } from "@/components/ui/switch"
-import { Label } from "@/components/ui/label"
+} from '@/components/ui/dialog'
+import { Label } from '@/components/ui/label'
+import { Switch } from '@/components/ui/switch'
+import { Check, Settings } from 'lucide-react'
+import { useEffect, useState } from 'react'
 
 export function CookieConsent() {
   const [showBanner, setShowBanner] = useState(false)
   const [showSettings, setShowSettings] = useState(false)
   const [cookiePreferences, setCookiePreferences] = useState({
-    necessary: true, // Siempre activado
+    necessary: true,
     analytics: true,
-    marketing: false,
+    marketing: true,
   })
 
   useEffect(() => {
-    // Comprobar si el usuario ya ha dado su consentimiento
-    const consent = localStorage.getItem("cookie-consent")
+    const consent = localStorage.getItem('cookie-consent')
     if (!consent) {
-      // Mostrar el banner después de un pequeño retraso para mejorar la experiencia de usuario
       const timer = setTimeout(() => {
         setShowBanner(true)
       }, 1000)
@@ -49,7 +47,7 @@ export function CookieConsent() {
   }
 
   const savePreferences = (preferences = cookiePreferences) => {
-    localStorage.setItem("cookie-consent", JSON.stringify(preferences))
+    localStorage.setItem('cookie-consent', JSON.stringify(preferences))
     setShowBanner(false)
     setShowSettings(false)
   }
@@ -68,8 +66,9 @@ export function CookieConsent() {
             <div className="flex-1">
               <h3 className="text-lg font-medium mb-2">Uso de cookies</h3>
               <p className="text-sm text-muted-foreground">
-                Utilizamos cookies para mejorar tu experiencia en nuestra web, personalizar contenido y analizar el
-                tráfico. Puedes aceptar todas las cookies o personalizar tus preferencias.
+                Utilizamos cookies para mejorar tu experiencia en nuestra web,
+                personalizar contenido y analizar el tráfico. Puedes aceptar
+                todas las cookies o personalizar tus preferencias.
               </p>
             </div>
             <div className="flex flex-wrap gap-2">
@@ -91,8 +90,8 @@ export function CookieConsent() {
           <DialogHeader>
             <DialogTitle>Preferencias de cookies</DialogTitle>
             <DialogDescription>
-              Personaliza qué tipos de cookies deseas aceptar. Las cookies necesarias son imprescindibles para el
-              funcionamiento del sitio.
+              Personaliza qué tipos de cookies deseas aceptar. Las cookies
+              necesarias son imprescindibles para el funcionamiento del sitio.
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
@@ -112,12 +111,19 @@ export function CookieConsent() {
                 <Label htmlFor="analytics" className="font-medium">
                   Cookies analíticas
                 </Label>
-                <p className="text-sm text-muted-foreground">Nos ayudan a entender cómo utilizas el sitio.</p>
+                <p className="text-sm text-muted-foreground">
+                  Nos ayudan a entender cómo utilizas el sitio.
+                </p>
               </div>
               <Switch
                 id="analytics"
                 checked={cookiePreferences.analytics}
-                onCheckedChange={(checked) => setCookiePreferences({ ...cookiePreferences, analytics: checked })}
+                onCheckedChange={(checked) =>
+                  setCookiePreferences({
+                    ...cookiePreferences,
+                    analytics: checked,
+                  })
+                }
               />
             </div>
             <div className="flex items-center justify-between">
@@ -125,12 +131,19 @@ export function CookieConsent() {
                 <Label htmlFor="marketing" className="font-medium">
                   Cookies de marketing
                 </Label>
-                <p className="text-sm text-muted-foreground">Utilizadas para mostrarte anuncios relevantes.</p>
+                <p className="text-sm text-muted-foreground">
+                  Utilizadas para mostrarte anuncios relevantes.
+                </p>
               </div>
               <Switch
                 id="marketing"
                 checked={cookiePreferences.marketing}
-                onCheckedChange={(checked) => setCookiePreferences({ ...cookiePreferences, marketing: checked })}
+                onCheckedChange={(checked) =>
+                  setCookiePreferences({
+                    ...cookiePreferences,
+                    marketing: checked,
+                  })
+                }
               />
             </div>
           </div>
@@ -138,11 +151,12 @@ export function CookieConsent() {
             <Button variant="outline" onClick={() => setShowSettings(false)}>
               Cancelar
             </Button>
-            <Button onClick={() => savePreferences()}>Guardar preferencias</Button>
+            <Button onClick={() => savePreferences()}>
+              Guardar preferencias
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
     </>
   )
 }
-

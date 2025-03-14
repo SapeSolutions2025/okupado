@@ -10,6 +10,7 @@ interface AnuncioProps {
 }
 
 export function Ads({ className, fullHeight = false, dataSlot }: AnuncioProps) {
+  
   useEffect(() => {
     try {
       ;((window as any).adsbygoogle = (window as any).adsbygoogle || []).push(
