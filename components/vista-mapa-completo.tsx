@@ -1,11 +1,15 @@
-"use client"
+'use client'
 
-import { useState, useCallback, useRef } from "react"
-import { Loader2, AlertCircle } from "lucide-react"
-import { GoogleMap, useJsApiLoader, Marker, InfoWindow } from "@react-google-maps/api"
-import type { Address } from "@/types/address"
-import type { Report } from "@/types/report"
-import { config } from "@/lib/config"
+import type { Address } from '@/types/address'
+import type { Report } from '@/types/report'
+import {
+  GoogleMap,
+  InfoWindow,
+  Marker,
+  useJsApiLoader,
+} from '@react-google-maps/api'
+import { AlertCircle, Loader2 } from 'lucide-react'
+import { useCallback, useRef, useState } from 'react'
 
 declare global {
   interface Window {
@@ -14,8 +18,8 @@ declare global {
 }
 
 const mapContainerStyle = {
-  width: "100%",
-  height: "100%",
+  width: '100%',
+  height: '100%',
 }
 
 // Coordenadas de Madrid (centro predeterminado)
@@ -30,16 +34,20 @@ interface VistaMapaCompletoProps {
   reports: Report[]
 }
 
-export function VistaMapaCompleto({ selectedLocation, allLocations, reports }: VistaMapaCompletoProps) {
+export function VistaMapaCompleto({
+  selectedLocation,
+  allLocations,
+  reports,
+}: VistaMapaCompletoProps) {
   const [map, setMap] = useState<google.maps.Map | null>(null)
   const [activeMarker, setActiveMarker] = useState<string | null>(null)
-  const [infoWindowPosition, setInfoWindowPosition] = useState<google.maps.LatLng | null>(null)
+  const [infoWindowPosition, setInfoWindowPosition] =
+    useState<google.maps.LatLng | null>(null)
   const markersRef = useRef<Record<string, google.maps.Marker>>({})
-  console.log(map)
   // Cargarel script de Google Maps usando el cargador de la biblioteca
   const { isLoaded, loadError } = useJsApiLoader({
-    googleMapsApiKey: config.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "",
-    libraries: ["places"],
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '',
+    libraries: ['places'],
   })
 
   // Almacenar una referencia al mapa cuando se carga
@@ -66,23 +74,34 @@ export function VistaMapaCompleto({ selectedLocation, allLocations, reports }: V
   }, [])
 
   // Manejar clic en marcador
-  const handleMarkerClick = (locationId: string, position: google.maps.LatLng | google.maps.LatLngLiteral) => {
+  const handleMarkerClick = (
+    locationId: string,
+    position: google.maps.LatLng | google.maps.LatLngLiteral,
+  ) => {
     setActiveMarker(locationId)
-    setInfoWindowPosition(position instanceof google.maps.LatLng ? position : new google.maps.LatLng(position))
+    setInfoWindowPosition(
+      position instanceof google.maps.LatLng
+        ? position
+        : new google.maps.LatLng(position),
+    )
   }
 
   // Función para verificar si hay reportes en una dirección
   const hasReportsInAddress = (address: Address): boolean => {
     // Verificar si hay reportes en la misma ciudad y código postal
     return reports.some(
-      (report) => report.city.toLowerCase() === address.city.toLowerCase() && report.postalCode === address.postalCode,
+      (report) =>
+        report.city.toLowerCase() === address.city.toLowerCase() &&
+        report.postalCode === address.postalCode,
     )
   }
 
   // Función para obtener el número de reportes en una dirección
   const getReportCount = (address: Address): number => {
     return reports.filter(
-      (report) => report.city.toLowerCase() === address.city.toLowerCase() && report.postalCode === address.postalCode,
+      (report) =>
+        report.city.toLowerCase() === address.city.toLowerCase() &&
+        report.postalCode === address.postalCode,
     ).length
   }
 
@@ -144,8 +163,8 @@ export function VistaMapaCompleto({ selectedLocation, allLocations, reports }: V
             const tieneReportes = hasReportsInAddress(location)
             //const numReportes = getReportCount(location)
             const markerIcon = tieneReportes
-              ? "https://maps.google.com/mapfiles/ms/icons/red-dot.png"
-              : "https://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+              ? 'https://maps.google.com/mapfiles/ms/icons/red-dot.png'
+              : 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png'
 
             // Solo agregar si no existe ya un marcador en esas coordenadas
             if (!markerMap.has(coordKey)) {
@@ -171,7 +190,7 @@ export function VistaMapaCompleto({ selectedLocation, allLocations, reports }: V
               id: `report-${marker.id}`,
               position: marker.position,
               title: marker.title,
-              icon: "https://maps.google.com/mapfiles/ms/icons/yellow-dot.png",
+              icon: 'https://maps.google.com/mapfiles/ms/icons/yellow-dot.png',
               isReport: true,
               data: marker.report,
             })
@@ -187,7 +206,10 @@ export function VistaMapaCompleto({ selectedLocation, allLocations, reports }: V
               onClick={() => handleMarkerClick(marker.id, marker.position)}
               icon={{
                 url: marker.icon,
-                scaledSize: new window.google.maps.Size(marker.isReport ? 30 : 40, marker.isReport ? 30 : 40),
+                scaledSize: new window.google.maps.Size(
+                  marker.isReport ? 30 : 40,
+                  marker.isReport ? 30 : 40,
+                ),
               }}
               onLoad={(markerInstance) => {
                 markersRef.current[marker.id] = markerInstance
@@ -206,26 +228,32 @@ export function VistaMapaCompleto({ selectedLocation, allLocations, reports }: V
             }}
           >
             <div className="p-1 max-w-[250px]">
-              {activeMarker.startsWith("report-")
+              {activeMarker.startsWith('report-')
                 ? // Contenido para reportes
                   (() => {
-                    const reportId = activeMarker.replace("report-", "")
+                    const reportId = activeMarker.replace('report-', '')
                     const report = reports.find((r) => r.id === reportId)
                     if (!report) return <div>Reporte no encontrado</div>
 
                     return (
                       <>
-                        <h3 className="font-medium text-sm mb-1">{report.address}</h3>
+                        <h3 className="font-medium text-sm mb-1">
+                          {report.address}
+                        </h3>
                         <p className="text-xs text-muted-foreground mb-2">
                           {report.city}, {report.postalCode}
                         </p>
                         <p className="text-xs mb-1">
                           <span className="font-medium">Tipo: </span>
-                          {report.incidentType === "okupacion_reciente" && "Okupación reciente"}
-                          {report.incidentType === "okupacion_establecida" && "Okupación establecida"}
-                          {report.incidentType === "okupacion_conflictiva" && "Problemas de convivencia"}
-                          {report.incidentType === "okupacion_mafia" && "Red organizada"}
-                          {report.incidentType === "otro" && "Otro tipo"}
+                          {report.incidentType === 'okupacion_reciente' &&
+                            'Okupación reciente'}
+                          {report.incidentType === 'okupacion_establecida' &&
+                            'Okupación establecida'}
+                          {report.incidentType === 'okupacion_conflictiva' &&
+                            'Problemas de convivencia'}
+                          {report.incidentType === 'okupacion_mafia' &&
+                            'Red organizada'}
+                          {report.incidentType === 'otro' && 'Otro tipo'}
                         </p>
                         {report.floor && (
                           <p className="text-xs mb-1">
@@ -234,14 +262,15 @@ export function VistaMapaCompleto({ selectedLocation, allLocations, reports }: V
                           </p>
                         )}
                         <p className="text-xs italic mt-1">
-                          Reportado el {new Date(report.createdAt).toLocaleDateString()}
+                          Reportado el{' '}
+                          {new Date(report.createdAt).toLocaleDateString()}
                         </p>
                       </>
                     )
                   })()
                 : // Contenido para ubicaciones
                   (() => {
-                    const index = activeMarker.split("-")?.[1]
+                    const index = activeMarker.split('-')?.[1]
 
                     const location = allLocations[Number(index)]
                     if (!location) return <div>Ubicación no encontrada</div>
@@ -251,7 +280,9 @@ export function VistaMapaCompleto({ selectedLocation, allLocations, reports }: V
 
                     return (
                       <>
-                        <h3 className="font-medium text-sm mb-1">{location.formattedAddress}</h3>
+                        <h3 className="font-medium text-sm mb-1">
+                          {location.formattedAddress}
+                        </h3>
                         <p className="text-xs text-muted-foreground mb-2">
                           {location.city}, {location.postalCode}
                         </p>
@@ -259,7 +290,9 @@ export function VistaMapaCompleto({ selectedLocation, allLocations, reports }: V
                           <div className="flex items-center gap-1 text-amber-600 bg-amber-50 p-1 rounded-sm text-xs mt-1">
                             <AlertCircle className="h-3 w-3 shrink-0" />
                             <span className="font-medium">
-                              {numReportes} {numReportes === 1 ? "reporte" : "reportes"} de inquiokupas
+                              {numReportes}{' '}
+                              {numReportes === 1 ? 'reporte' : 'reportes'} de
+                              inquiokupas
                             </span>
                           </div>
                         )}
@@ -290,4 +323,3 @@ export function VistaMapaCompleto({ selectedLocation, allLocations, reports }: V
     </div>
   )
 }
-
