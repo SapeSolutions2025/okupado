@@ -1,4 +1,4 @@
-import { Ads } from '@/components/anuncio'
+//import { Ads } from '@/components/anuncio'
 import { ReportForm } from '@/components/reportar-form'
 import { AlertTriangle } from 'lucide-react'
 

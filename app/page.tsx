@@ -1,4 +1,4 @@
-import { Ads } from '@/components/anuncio'
+//import { Ads } from '@/components/anuncio'
 import { Footer } from '@/components/footer'
 import { HeroBanner } from '@/components/hero-banner'
 import { FileText, MapPin, Shield } from 'lucide-react'

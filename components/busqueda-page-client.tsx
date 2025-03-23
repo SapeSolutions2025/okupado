@@ -1,6 +1,6 @@
 'use client'
 
-import { Ads } from '@/components/anuncio'
+//import { Ads } from '@/components/anuncio'
 import { BusquedaForm } from '@/components/busqueda-form'
 import { FiltroUbicacion } from '@/components/filtro-ubicacion'
 import { ResultadosBusqueda } from '@/components/resultados-busqueda'
