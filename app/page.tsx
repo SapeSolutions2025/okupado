@@ -49,8 +49,8 @@ export default function Home() {
         </div>
       </section>
 
-      <Ads className="container mx-auto px-0 py-6" dataSlot='8609650589'/>
-
+{/*       <Ads className="container mx-auto px-0 py-6" dataSlot='8609650589'/>
+ */}
       <section className="container mx-auto px-4 py-12 bg-muted/30 rounded-lg my-8">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-2xl font-bold mb-4">¿Cómo funciona?</h2>
@@ -86,8 +86,8 @@ export default function Home() {
         </div>
       </section>
 
-      <Ads className="container mx-auto px-0 py-6" dataSlot='6389346195'/>
-
+{/*       <Ads className="container mx-auto px-0 py-6" dataSlot='6389346195'/>
+ */}
       <Footer />
     </main>
   )

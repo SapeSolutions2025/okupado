@@ -244,9 +244,9 @@ export function BusquedaPageClient({
           <>
             <TabsContent value="resultados" className="space-y-6">
               <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 min-h-[800px]">
-                <div className="lg:col-span-1">
+               {/*  <div className="lg:col-span-1">
                   <Ads fullHeight className="h-full" dataSlot='4405346533'/>
-                </div>
+                </div> */}
 
                 <div className="lg:col-span-3">
                   <ResultadosSuspense
@@ -271,9 +271,9 @@ export function BusquedaPageClient({
           lastQuery.current && (
             <div className="min-h-[800px]">
               <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 min-h-[800px]">
-                <div className="lg:col-span-1">
+              {/*   <div className="lg:col-span-1">
                   <Ads fullHeight className="h-full" dataSlot='9731160560'/>
-                </div>
+                </div> */}
 
                 <div className="lg:col-span-3">
                   <ResultadosBusqueda

@@ -37,9 +37,9 @@ export default function ReportarPage() {
       <Header />
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Columna izquierda para publicidad */}
-        <div className="lg:col-span-2 lg:min-h-[800px] flex">
+     {/*    <div className="lg:col-span-2 lg:min-h-[800px] flex">
           <Ads fullHeight className="w-full" dataSlot='5076264520'/>
-        </div>
+        </div> */}
 
         {/* Columna central para el formulario */}
         <div className="lg:col-span-8">
@@ -47,9 +47,9 @@ export default function ReportarPage() {
         </div>
 
         {/* Columna derecha para publicidad */}
-        <div className="lg:col-span-2 lg:min-h-[800px] flex">
+      {/*   <div className="lg:col-span-2 lg:min-h-[800px] flex">
           <Ads fullHeight className="w-full" dataSlot='4670405573' />
-        </div>
+        </div> */}
       </div>
     </div>
   )
