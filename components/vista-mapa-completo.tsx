@@ -39,7 +39,7 @@ export function VistaMapaCompleto({
   allLocations,
   reports,
 }: VistaMapaCompletoProps) {
-  const [map, setMap] = useState<google.maps.Map | null>(null)
+  const [_map, setMap] = useState<google.maps.Map | null>(null)
   const [activeMarker, setActiveMarker] = useState<string | null>(null)
   const [infoWindowPosition, setInfoWindowPosition] =
     useState<google.maps.LatLng | null>(null)
